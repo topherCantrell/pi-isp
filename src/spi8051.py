@@ -10,6 +10,9 @@ GPIO.setmode(GPIO.BCM)
 # GPIO5 = reset
 GPIO.setup(5,GPIO.OUT)
 
+GPIO.output(5,GPIO.HIGH) # To reset
+GPIO.output(5,GPIO.LOW) # To run
+
 spi = spidev.SpiDev()
 spi.open(0, 1) # Not using the driver-controlled chip-select
 
