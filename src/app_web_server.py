@@ -31,6 +31,7 @@ class UploadHandler(tornado.web.RequestHandler):
         #final_filename= fname+extension
         #output_file = open("uploads/" + final_filename, 'w')
         #output_file.write(file1['body'])
+        
         self.finish("file is uploaded")
 
 class ISPHandler(tornado.web.RequestHandler):
