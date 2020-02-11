@@ -1,3 +1,13 @@
+'''
+  - Add this line to /etc/rc.local (before the exit 0):
+  -     /home/pi/ONBOOT.sh 2> /home/pi/ONBOOT.errors > /home/pi/ONBOOT.stdout &
+  - Add the following ONBOOT.sh script to /home/pi and make it executable:
+  
+#!/bin/bash
+cd /home/pi/piisp
+/usr/bin/python3 app_web_server.py  
+'''
+
 import os
 
 import tornado.ioloop
