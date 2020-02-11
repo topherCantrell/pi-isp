@@ -24,15 +24,15 @@ class UploadHandler(tornado.web.RequestHandler):
             start_address = int(start_address,base)
         bin_data = self.request.files['binfile'][0]['body']        
         
-        print('##',start_address,bin_data)
-        
-        #extension = os.path.splitext(original_fname)[1]
-        #fname = ''.join(random.choice(string.ascii_lowercase + string.digits) for x in range(6))
-        #final_filename= fname+extension
-        #output_file = open("uploads/" + final_filename, 'w')
-        #output_file.write(file1['body'])
-        
-        self.finish("file is uploaded")
+        if ISP:
+            ISP.set_reset(True)   
+            ISP.enable_programming()
+            ISP.write_bytes(start_address,bin_data)
+            ISP.set_reset(False)
+        else:
+            print('##write_bytes',start_address,bin_data)
+                
+        self.finish("Programmed")
 
 class ISPHandler(tornado.web.RequestHandler):
     
@@ -46,7 +46,8 @@ class ISPHandler(tornado.web.RequestHandler):
             data = ISP.read_bytes(start_address,num_bytes)
             ISP.set_reset(False)
         else:
-            data = [45]*num_bytes         
+            data = [45]*num_bytes      
+            print('##read_bytes',start_address,num_bytes)   
         
         ret = {
             'start' : start_address,
@@ -74,7 +75,7 @@ class ISPHandler(tornado.web.RequestHandler):
             ISP.write_bytes(req['start'],req['data'])
             ISP.set_reset(False)
         else:
-            pass
+            print('##erase')
         
         ret = {
             'start' : req['start'],
