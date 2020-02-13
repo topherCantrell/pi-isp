@@ -13,7 +13,7 @@ import os
 import tornado.ioloop
 import tornado.web
 
-TESTING = True
+TESTING = False
 
 if TESTING:
     # WINDOWS HACK
@@ -31,8 +31,9 @@ class UploadHandler(tornado.web.RequestHandler):
         base = 10
         if start_address.startswith('0x'):
             base = 16
-            start_address = int(start_address,base)
-        bin_data = self.request.files['binfile'][0]['body']        
+        start_address = int(start_address,base)
+        bin_data = self.request.files['binfile'][0]['body']     
+        #print(bin_data)   
         
         if ISP:
             ISP.set_reset(True)   

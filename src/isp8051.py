@@ -142,3 +142,11 @@ class ISP8051:
         ret = self.spi.xfer2(dat)
         time.sleep(WAIT_AFTER_COMMAND)
         return ret[2:]
+
+if __name__ == '__main__':
+    
+    isp = ISP8051()
+    isp.set_reset(True)
+    isp.enable_programming()
+    isp.erase()
+    
