@@ -4,10 +4,10 @@ import spidev  # https://github.com/doceme/py-spidev
 import time
 
 PIN_RESET = 5
-WAIT_AFTER_RESET = 1
-WAIT_AFTER_ENABLE = 1
-WAIT_AFTER_ERASE = 1
-WAIT_AFTER_COMMAND = 0.1
+WAIT_AFTER_RESET   = 0.5
+WAIT_AFTER_ENABLE  = 0.5
+WAIT_AFTER_ERASE   = 0.5
+WAIT_AFTER_COMMAND = 0.001
 
 class ISP8051:
     
@@ -67,9 +67,12 @@ class ISP8051:
         self.spi.no_cs = True
         self.spi.max_speed_hz = 500000 # 250000 # 500000
         self.spi.threewire = False
+        
+        self.enable_programming()   
     
     def close(self):
         self.spi.close()
+        self.set_reset(False)
             
     def set_reset(self,is_reset):
         if is_reset:
@@ -79,6 +82,7 @@ class ISP8051:
         time.sleep(WAIT_AFTER_RESET)
         
     def enable_programming(self):
+        self.set_reset(True)
         a = self.spi.xfer2([0xAC,0x53,0x00,0x00])
         if a[3]!= 105:
             raise Exception('Expected a 0x69 ack')
