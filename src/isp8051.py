@@ -46,8 +46,7 @@ class ISP8051:
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
-        GPIO.setup(PIN_RESET,GPIO.OUT)
-        self.set_reset(False)
+        GPIO.setup(PIN_RESET,GPIO.IN)        
         self.spi = spidev.SpiDev()
         self.spi.open(0,0) # Device doesn't matter since we aren't using the CS line
         
@@ -75,10 +74,12 @@ class ISP8051:
         self.set_reset(False)
             
     def set_reset(self,is_reset):
-        if is_reset:
+        if is_reset:            
             GPIO.output(PIN_RESET,GPIO.HIGH)
+            GPIO.setup(PIN_RESET,GPIO.OUT)
         else:
-            GPIO.output(PIN_RESET,GPIO.LOW)
+            GPIO.setup(PIN_RESET,GPIO.IN)
+            #GPIO.output(PIN_RESET,GPIO.LOW)
         time.sleep(WAIT_AFTER_RESET)
         
     def enable_programming(self):
