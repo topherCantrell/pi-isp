@@ -74,9 +74,9 @@ class ISP8051:
         self.set_reset(False)
             
     def set_reset(self,is_reset):
-        if is_reset:            
-            GPIO.output(PIN_RESET,GPIO.HIGH)
-            GPIO.setup(PIN_RESET,GPIO.OUT)
+        if is_reset:      
+            GPIO.setup(PIN_RESET,GPIO.OUT)      
+            GPIO.output(PIN_RESET,GPIO.HIGH)            
         else:
             GPIO.setup(PIN_RESET,GPIO.IN)
             #GPIO.output(PIN_RESET,GPIO.LOW)
